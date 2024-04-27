@@ -13,12 +13,12 @@ import java.util.List;
 public class ResponseSmombieDto {
 
     @Schema(description = "위험도 수준", example = "0")
-    private Integer riskLevel;
+    private List<Integer> riskLevel;
 
     @Schema(description = "스몸비 위치")
     private List<LocationDto> smombiesLocation;
 
-    public ResponseSmombieDto(Integer riskLevel, List<User> users) {
+    public ResponseSmombieDto(List<Integer> riskLevel, List<User> users) {
         this.riskLevel = riskLevel;
         this.smombiesLocation = createLocations(users);
     }
