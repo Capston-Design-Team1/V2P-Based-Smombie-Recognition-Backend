@@ -123,13 +123,10 @@ public class UserController {
             List<User> smombies = userService.getSmombieUsers(deviceId);
 
             // 위험도 계산
-            //TODO: 위험도 로직 검토 필요
-            Double carDeceleration = 1.0;
-            //Integer riskLevel = new RiskCalculator(smombies, car, carDeceleration).riskCheck();
-            Integer riskLevel = 0;
+            List<Integer> riskList = new RiskCalculator(smombies, car, carDeceleration).riskCheck();
 
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseSmombieDto(riskLevel, smombies));
+                    .body(new ResponseSmombieDto(riskList, smombies));
 
         } catch (Error e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
