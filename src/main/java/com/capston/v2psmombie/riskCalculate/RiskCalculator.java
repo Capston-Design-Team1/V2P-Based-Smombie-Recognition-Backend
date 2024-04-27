@@ -68,7 +68,7 @@ public class RiskCalculator {
     }
 
     private double calculateTimeToStop(double totalStoppingDistance, double deceleration) {
-        return Math.sqrt((-2 * totalStoppingDistance) / deceleration);
+        return Math.sqrt((2 * totalStoppingDistance) / deceleration);
     }
 
     private double findMinTime() {
