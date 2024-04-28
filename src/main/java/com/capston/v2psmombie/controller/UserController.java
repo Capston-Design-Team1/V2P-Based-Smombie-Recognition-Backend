@@ -104,6 +104,7 @@ public class UserController {
      * 스몸비 보행자 정보 조회
      **/
     @GetMapping("/users/{deviceId}/smombies")
+    @Operation(summary = "스몸비 정보 조회", description = "차량에 대한 주변 스몸비 정보를 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     content = {
@@ -120,15 +121,10 @@ public class UserController {
         try {
 
             User car = userService.getUserByDeviceId(deviceId);
-            List<User> smombies = userService.getSmombieUsers(deviceId);
-
             RiskCalculator calculator = new RiskCalculator(car);
-            ResponseSmombieDto responseDto = new ResponseSmombieDto();
-            smombies.stream()
-                    .forEach(smombie-> responseDto.classifySmombieByRiskLevel(
-                            calculator.riskCalculate(smombie),
-                            smombie
-                    ));
+
+            List<User> smombies = userService.getSmombieUsers(deviceId);
+            ResponseSmombieDto responseDto = new ResponseSmombieDto(calculator, smombies);
 
             return ResponseEntity.status(HttpStatus.OK).body(responseDto);
 

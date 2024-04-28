@@ -1,6 +1,7 @@
 package com.capston.v2psmombie.dto;
 
 import com.capston.v2psmombie.domain.User;
+import com.capston.v2psmombie.riskCalculate.RiskCalculator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
@@ -22,8 +23,19 @@ public class ResponseSmombieDto {
     @Schema(description = "위험도 3")
     private List<LocationDto> riskLevel3 = new ArrayList<>();
 
+    public ResponseSmombieDto(RiskCalculator calculator, List<User> smombies) {
+        classifySmombies(calculator, smombies);
+    }
 
-    public void classifySmombieByRiskLevel(Integer riskLevel, User user) {
+    private void classifySmombies(RiskCalculator calculator, List<User> smombies) {
+        smombies.stream()
+                .forEach(smombie -> classifySmombieByRiskLevel(
+                        calculator.riskCalculate(smombie), smombie
+                ));
+    }
+
+
+    private void classifySmombieByRiskLevel(Integer riskLevel, User user) {
         LocationDto dto = new LocationDto(user);
 
         if (riskLevel == 1) {
