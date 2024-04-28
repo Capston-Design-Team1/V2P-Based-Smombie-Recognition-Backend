@@ -8,19 +8,18 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @Schema(
         title = "ResponseSmombieDto: 스몸비 조회 응답 DTO",
         description = "Smombie Search response DTO")
 public class ResponseSmombieDto {
 
-    @Schema(description = "위험도 1")
+    @Schema(description = "위험도 레벨 1")
     private List<LocationDto> riskLevel1 = new ArrayList<>();
 
-    @Schema(description = "위험도 2")
+    @Schema(description = "위험도 레벨 2")
     private List<LocationDto> riskLevel2 = new ArrayList<>();
 
-    @Schema(description = "위험도 3")
+    @Schema(description = "위험도 레벨 3")
     private List<LocationDto> riskLevel3 = new ArrayList<>();
 
     public ResponseSmombieDto(RiskCalculator calculator, List<User> smombies) {
