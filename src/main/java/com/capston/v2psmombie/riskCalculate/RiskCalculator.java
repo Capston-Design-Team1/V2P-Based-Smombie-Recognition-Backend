@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.util.List;
 import java.util.ArrayList;
+
 @Builder
 @Getter
 public class RiskCalculator {
@@ -21,7 +22,7 @@ public class RiskCalculator {
         this.carData = carData;
     }
 
-    public static RiskCalculatorBuilder builder(List<User> users, User car){
+    public static RiskCalculatorBuilder builder(List<User> users, User car) {
         RiskCalculatorBuilder calculatorBuilder = new RiskCalculatorBuilder();
         calculatorBuilder.smombieDataList(users);
         calculatorBuilder.carData(car);
@@ -33,13 +34,16 @@ public class RiskCalculator {
         List<Integer> riskList = new ArrayList<>();
         for (User user : smombieDataList) {
             double minMeetingTime = MeetingCalculator.timeToMeet(user, carData);
-            if (minMeetingTime<0 || minMeetingTime> 40) {
+            if (minMeetingTime < 0 || minMeetingTime > 40) {
                 riskList.add(4);
             } else if (minMeetingTime > 30) {
                 riskList.add(3);
-            } else if(minMeetingTime > 15){
+            } else if (minMeetingTime > 15) {
                 riskList.add(2);
-            }else{riskList.add(1);}
+            } else {
+                riskList.add(1);
+            }
         }
+        return riskList;
     }
 }
