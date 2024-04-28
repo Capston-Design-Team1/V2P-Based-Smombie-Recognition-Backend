@@ -5,6 +5,7 @@ import com.capston.v2psmombie.domain.User;
 import com.capston.v2psmombie.dto.ResponseSmombieDto;
 import com.capston.v2psmombie.dto.UserCreateDto;
 import com.capston.v2psmombie.dto.UserUpdateDto;
+import com.capston.v2psmombie.riskCalculate.RiskCalculator;
 import com.capston.v2psmombie.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -103,6 +104,7 @@ public class UserController {
      * 스몸비 보행자 정보 조회
      **/
     @GetMapping("/users/{deviceId}/smombies")
+    @Operation(summary = "스몸비 정보 조회", description = "차량에 대한 주변 스몸비 정보를 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     content = {
@@ -117,13 +119,14 @@ public class UserController {
             @PathVariable String deviceId
     ) {
         try {
+
+            User car = userService.getUserByDeviceId(deviceId);
+            RiskCalculator calculator = new RiskCalculator(car);
+
             List<User> smombies = userService.getSmombieUsers(deviceId);
+            ResponseSmombieDto responseDto = new ResponseSmombieDto(calculator, smombies);
 
-            // TODO: 위험도 레벨 계산 로직 추가 필요
-            Integer riskLevel = 0;
-
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseSmombieDto(riskLevel, smombies));
+            return ResponseEntity.status(HttpStatus.OK).body(responseDto);
 
         } catch (Error e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

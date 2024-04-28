@@ -1,34 +1,48 @@
 package com.capston.v2psmombie.dto;
 
 import com.capston.v2psmombie.domain.User;
+import com.capston.v2psmombie.riskCalculate.RiskCalculator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @Schema(
         title = "ResponseSmombieDto: 스몸비 조회 응답 DTO",
         description = "Smombie Search response DTO")
 public class ResponseSmombieDto {
 
-    @Schema(description = "위험도 수준", example = "0")
-    private Integer riskLevel;
+    @Schema(description = "위험도 레벨 1")
+    private List<LocationDto> riskLevel1 = new ArrayList<>();
 
-    @Schema(description = "스몸비 위치")
-    private List<LocationDto> smombiesLocation;
+    @Schema(description = "위험도 레벨 2")
+    private List<LocationDto> riskLevel2 = new ArrayList<>();
 
-    public ResponseSmombieDto(Integer riskLevel, List<User> users) {
-        this.riskLevel = riskLevel;
-        this.smombiesLocation = createLocations(users);
+    @Schema(description = "위험도 레벨 3")
+    private List<LocationDto> riskLevel3 = new ArrayList<>();
+
+    public ResponseSmombieDto(RiskCalculator calculator, List<User> smombies) {
+        classifySmombies(calculator, smombies);
     }
 
-    private List<LocationDto> createLocations(List<User> users) {
-        return users.stream()
-                .map(user -> new LocationDto(
-                        user.getDeviceId(),
-                        user.getLatitude(),
-                        user.getLongitude()))
-                .toList();
+    private void classifySmombies(RiskCalculator calculator, List<User> smombies) {
+        smombies.stream()
+                .forEach(smombie -> classifySmombieByRiskLevel(
+                        calculator.riskCalculate(smombie), smombie
+                ));
+    }
+
+
+    private void classifySmombieByRiskLevel(Integer riskLevel, User user) {
+        LocationDto dto = new LocationDto(user);
+
+        if (riskLevel == 1) {
+            riskLevel1.add(dto);
+        } else if (riskLevel == 2) {
+            riskLevel2.add(dto);
+        } else if (riskLevel == 3) {
+            riskLevel3.add(dto);
+        }
     }
 }

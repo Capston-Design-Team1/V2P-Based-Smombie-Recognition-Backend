@@ -1,10 +1,9 @@
 package com.capston.v2psmombie.dto;
 
+import com.capston.v2psmombie.domain.User;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Getter
 @Schema(
         title = "LocationDto: User 위치 DTO",
@@ -18,4 +17,10 @@ public class LocationDto {
 
     @Schema(description = "경도", example = "126.97")
     private double longitude;
+
+    public LocationDto(User user) {
+        this.deviceId = user.getDeviceId();
+        this.latitude = user.getLatitude();
+        this.longitude = user.getLongitude();
+    }
 }

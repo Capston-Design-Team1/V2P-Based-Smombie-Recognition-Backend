@@ -69,7 +69,7 @@ public class UserService {
     }
 
 
-    private User getUserByDeviceId(String deviceId) {
+    public User getUserByDeviceId(String deviceId) {
         return userRepository.findByDeviceId(deviceId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다"));
     }
