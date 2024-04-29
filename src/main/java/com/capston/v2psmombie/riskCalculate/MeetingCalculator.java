@@ -10,7 +10,7 @@ public class MeetingCalculator {
 
     // Haversine formula to calculate distance between two points
     public static double haversine(double lat1, double lon1, double lat2, double lon2) {
-        final double R = 6371.0; // Earth radius in kilometers
+        final double R = 6371000.0; // Earth radius in kilometers
 
         double lat1Rad = Math.toRadians(lat1);
         double lon1Rad = Math.toRadians(lon1);
