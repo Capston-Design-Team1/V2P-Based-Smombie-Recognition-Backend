@@ -1,3 +1,7 @@
+package com.capston.v2psmombie.riskCalculate;
+
+import com.capston.v2psmombie.domain.User;
+
 public class ReRiskCalculator {
     final double R = 6371000.0; // Earth radius in meters
 
@@ -37,8 +41,9 @@ public class ReRiskCalculator {
 
     // Calculate the distance between two objects with given latitude, longitude,
     // speed, and direction data over time t
-    public double calculateDistance(double lat1, double lon1, double speed1, double direction1,
-            double t) {
+    private double calculateDistance(
+            double lat1, double lon1, double speed1, double direction1, double t
+    ) {
 
         // Convert directions to radians
         direction1 = toRadians(direction1);
@@ -54,13 +59,15 @@ public class ReRiskCalculator {
     }
 
     // Check if two objects are moving away from each other over time t
-    public boolean areMovingAway(double lat1, double lon1,
-            double speed1, double direction1, double t) {
+    private boolean areMovingAway(
+            double lat1, double lon1, double speed1, double direction1, double t
+    ) {
         double initialDistance;
-        if (t < 1)
+        if (t < 1) {
             initialDistance = haversine(lat1, lon1, lat1, lon1);
-        else
+        } else {
             initialDistance = calculateDistance(lat1, lon1, speed1, direction1, t);
+        }
         double finalDistance = calculateDistance(lat1, lon1, speed1, direction1, t + 1);
         return finalDistance > initialDistance;
     }
@@ -75,8 +82,9 @@ public class ReRiskCalculator {
         int endTime = 40;
 
         // check movingAway
-        if (areMovingAway(lat1, lon1, speed1, direction1, 0))
+        if (areMovingAway(lat1, lon1, speed1, direction1, 0)) {
             return 4;
+        }
 
         // 가장 가까워질때의 시간
         while (startTime < endTime) {
@@ -88,15 +96,16 @@ public class ReRiskCalculator {
             }
         }
         // 가장 가까워지는 시간일때 서로간의 거리가 50m 이상이면 만나지 않는다고 판단.
-        if (calculateDistance(lat1, lon1, speed1, direction1, startTime) > 50)
+        if (calculateDistance(lat1, lon1, speed1, direction1, startTime) > 50) {
             return 4;
+        }
 
-        if (startTime < 15)
+        if (startTime < 15) {
             return 1;
-        else if (startTime < 30)
+        } else if (startTime < 30) {
             return 2;
-        else
+        } else {
             return 3;
-
+        }
     }
 }
