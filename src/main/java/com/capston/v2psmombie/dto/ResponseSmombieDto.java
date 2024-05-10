@@ -1,9 +1,8 @@
 package com.capston.v2psmombie.dto;
 
 import com.capston.v2psmombie.domain.User;
-import com.capston.v2psmombie.riskCalculate.RiskCalculator;
+import com.capston.v2psmombie.riskCalculate.ReRiskCalculator;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +21,11 @@ public class ResponseSmombieDto {
     @Schema(description = "위험도 레벨 3")
     private List<LocationDto> riskLevel3 = new ArrayList<>();
 
-    public ResponseSmombieDto(RiskCalculator calculator, List<User> smombies) {
+    public ResponseSmombieDto(ReRiskCalculator calculator, List<User> smombies) {
         classifySmombies(calculator, smombies);
     }
 
-    private void classifySmombies(RiskCalculator calculator, List<User> smombies) {
+    private void classifySmombies(ReRiskCalculator calculator, List<User> smombies) {
         smombies.stream()
                 .forEach(smombie -> classifySmombieByRiskLevel(
                         calculator.riskCalculate(smombie), smombie
@@ -45,4 +44,5 @@ public class ResponseSmombieDto {
             riskLevel3.add(dto);
         }
     }
+
 }
