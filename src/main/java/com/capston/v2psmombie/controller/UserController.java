@@ -5,6 +5,7 @@ import com.capston.v2psmombie.domain.User;
 import com.capston.v2psmombie.dto.ResponseSmombieDto;
 import com.capston.v2psmombie.dto.UserCreateDto;
 import com.capston.v2psmombie.dto.UserUpdateDto;
+import com.capston.v2psmombie.riskCalculate.ReRiskCalculator;
 import com.capston.v2psmombie.riskCalculate.RiskCalculator;
 import com.capston.v2psmombie.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -121,7 +122,8 @@ public class UserController {
         try {
 
             User car = userService.getUserByDeviceId(deviceId);
-            RiskCalculator calculator = new RiskCalculator(car);
+            //RiskCalculator calculator = new RiskCalculator(car);
+            ReRiskCalculator calculator = new ReRiskCalculator(car);
 
             List<User> smombies = userService.getSmombieUsers(deviceId);
             ResponseSmombieDto responseDto = new ResponseSmombieDto(calculator, smombies);
