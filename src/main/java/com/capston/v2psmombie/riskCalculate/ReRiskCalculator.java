@@ -104,8 +104,8 @@ public class ReRiskCalculator {
             return 1;
         } else if (startTime < 30) {
             return 2;
-        } else {
+        } else if (startTime < 40){
             return 3;
-        }
+        } else {return 4;}
     }
 }
