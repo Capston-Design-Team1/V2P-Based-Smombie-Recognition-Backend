@@ -1,21 +1,28 @@
 package com.capston.v2psmombie.service;
 
+import com.capston.v2psmombie.domain.User;
+import com.capston.v2psmombie.dto.FcmTokenRequest;
+import com.capston.v2psmombie.repository.UserRepository;
 import com.google.firebase.messaging.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
 public class FcmService {
 
     private final FirebaseMessaging firebaseMessaging;
+    private final UserRepository userRepository;
 
+    @Transactional
+    public void saveToken(FcmTokenRequest request) {
+        User user = userRepository.findByDeviceId(request.getDeviceId())
+                .orElseThrow(IllegalArgumentException::new);
 
-    //TODO: 토큰을 저장하는 메서드
-//    @Transactional
-//    public void saveToken(FcmTokenDto request){
-//
-//    }
+        user.updateFcmToken(request.getFcmToken());
+        userRepository.save(user);
+    }
 
 
     //TODO: 위험도가 1인 스몸비들에게 푸시 알림을 전송하는 메서드

@@ -27,6 +27,7 @@ public class User {
     private double direction;
     private boolean mode;
     private boolean smombie;
+    private String fcmToken;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ap_id")
@@ -72,6 +73,11 @@ public class User {
         this.mode = mode;
         this.smombie = smombie;
         this.connectedAp = connectedAp;
+    }
+
+
+    public void updateFcmToken(String fcmToken){
+        this.fcmToken = fcmToken;
     }
 
 }
