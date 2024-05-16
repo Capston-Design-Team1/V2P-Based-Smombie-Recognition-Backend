@@ -7,6 +7,7 @@ import com.capston.v2psmombie.dto.UserCreateDto;
 import com.capston.v2psmombie.dto.UserUpdateDto;
 import com.capston.v2psmombie.riskCalculate.ReRiskCalculator;
 import com.capston.v2psmombie.riskCalculate.RiskCalculator;
+import com.capston.v2psmombie.service.FcmService;
 import com.capston.v2psmombie.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -28,6 +29,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final FcmService fcmService;
 
 
     /**
@@ -122,12 +124,12 @@ public class UserController {
         try {
 
             User car = userService.getUserByDeviceId(deviceId);
-            //RiskCalculator calculator = new RiskCalculator(car);
             ReRiskCalculator calculator = new ReRiskCalculator(car);
 
             List<User> smombies = userService.getSmombieUsers(deviceId);
             ResponseSmombieDto responseDto = new ResponseSmombieDto(calculator, smombies);
 
+            fcmService.sendMessageToSmombies(responseDto.getRiskLevel1());
             return ResponseEntity.status(HttpStatus.OK).body(responseDto);
 
         } catch (Error e) {
