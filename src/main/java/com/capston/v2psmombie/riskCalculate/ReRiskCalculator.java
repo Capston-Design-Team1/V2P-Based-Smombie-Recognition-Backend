@@ -64,7 +64,7 @@ public class ReRiskCalculator {
     ) {
         double initialDistance;
         if (t < 1) {
-            initialDistance = haversine(lat1, lon1, lat1, lon1);
+            initialDistance = haversine(lat1, lon1, lat2, lon2);
         } else {
             initialDistance = calculateDistance(lat1, lon1, speed1, direction1, t);
         }
@@ -104,8 +104,8 @@ public class ReRiskCalculator {
             return 1;
         } else if (startTime < 30) {
             return 2;
-        } else {
+        } else if (startTime < 40){
             return 3;
-        }
+        } else {return 4;}
     }
 }
