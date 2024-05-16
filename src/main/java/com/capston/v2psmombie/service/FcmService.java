@@ -2,11 +2,14 @@ package com.capston.v2psmombie.service;
 
 import com.capston.v2psmombie.domain.User;
 import com.capston.v2psmombie.dto.FcmTokenRequest;
+import com.capston.v2psmombie.dto.LocationDto;
 import com.capston.v2psmombie.repository.UserRepository;
 import com.google.firebase.messaging.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -33,13 +36,12 @@ public class FcmService {
     }
 
 
-    //TODO: 위험도가 1인 스몸비들에게 푸시 알림을 전송하는 메서드
-//    public void sendMessageToSmombies(List<LocationDto> dangerSmombies) {
-//        String title = "";
-//        String body = "";
-//        dangerSmombies.stream()
-//                .forEach(smombie -> sendMessageByToken(smombie, title, body));
-//    }
+    public void sendMessageToSmombies(List<LocationDto> dangerSmombies) {
+        String title = "[ALERT] 보행자 알림";
+        String body = "주의! 근처에 충돌 가능성이 높은 차량이 있습니다";
+        dangerSmombies.stream()
+                .forEach(smombie -> sendMessageByToken(getToken(smombie.getDeviceId()), title, body));
+    }
 
 
     public void sendMessageByToken(String targetToken, String title, String body) {
