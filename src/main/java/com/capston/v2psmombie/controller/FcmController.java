@@ -28,14 +28,16 @@ public class FcmController {
 
     /**
      * FCM Notification 알림 테스트 API
-     * 토큰을 받아 해당 기기에 알림을 전송
+     * 사용자의 디바이스 ID를 param으로 받는다
+     * 사용자 정보(토큰)를 가져와 알림으로 전송한다
      *
-     * @param token
+     * @param deviceId
      */
-    @GetMapping("/fcm/test/{token}")
-    public void fcmNotificationTest(@PathVariable String token) {
-        String title = "FCM Notification Test API";
-        String body = String.format("푸시 알림이 성공적으로 전송되었습니다. 당신의 token은 %s입니다.", token);
+    @GetMapping("/fcm/test/{deviceId}")
+    public void fcmNotificationTest(@PathVariable String deviceId) {
+        String token = fcmService.getToken(deviceId);
+        String title = "FCM Notification Test with User Data";
+        String body = String.format("당신의 토큰은 %s 입니다.", token);
         fcmService.sendMessageByToken(token, title, body);
     }
 

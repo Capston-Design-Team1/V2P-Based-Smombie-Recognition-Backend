@@ -18,10 +18,18 @@ public class FcmService {
     @Transactional
     public void saveToken(FcmTokenRequest request) {
         User user = userRepository.findByDeviceId(request.getDeviceId())
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 
         user.updateFcmToken(request.getFcmToken());
         userRepository.save(user);
+    }
+
+    @Transactional(readOnly = true)
+    public String getToken(String deviceId) {
+        User user = userRepository.findByDeviceId(deviceId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+
+        return user.getFcmToken();
     }
 
 
