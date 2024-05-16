@@ -3,6 +3,7 @@ package com.capston.v2psmombie.dto;
 import com.capston.v2psmombie.domain.User;
 import com.capston.v2psmombie.riskCalculate.ReRiskCalculator;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @Schema(
         title = "ResponseSmombieDto: 스몸비 조회 응답 DTO",
         description = "Smombie Search response DTO")
+@Getter
 public class ResponseSmombieDto {
 
     @Schema(description = "위험도 레벨 1")
