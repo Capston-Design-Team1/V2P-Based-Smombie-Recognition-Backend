@@ -14,6 +14,7 @@ CREATE TABLE user (
     direction DECIMAL(7,4), -- User Direction
     mode BOOLEAN NOT NULL, -- User mode Pedestrian(0) Vehicle(1)
     smombie BOOLEAN NOT NULL DEFAULT 0, -- Not Smomobie(0) Smombie(1)
+    fcm_token VARCHAR(255), -- FCM Token
     ap_id INT, -- AP ID
     CONSTRAINT user_contact_id_fk
     FOREIGN KEY (ap_id)
