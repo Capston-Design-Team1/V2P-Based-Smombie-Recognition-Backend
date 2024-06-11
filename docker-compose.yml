@@ -27,7 +27,7 @@ services:
             - 8080:8080
         networks:
             - v2p-smombie-network
-        image: v2psmombie-server-image
+        image: fight0105/v2psmombie-image:latest
         depends_on:
             v2psmombie-db:
                 condition: service_healthy
