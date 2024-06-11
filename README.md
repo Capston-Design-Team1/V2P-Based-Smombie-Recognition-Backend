@@ -15,16 +15,17 @@
 ## Docker를 이용한 로컬 환경 구성  
   해당 프로젝트의 개발 환경의 일관성과 배포를 용이하게 해주기 위해 **Docker** 를 사용한다.  
   1. Spring Boot 서버 이미지 만들기 **(생략 가능)**
-      **Gradle Clean 후 Gradle BootJar 빌드를 통해 프로젝트 Jar 파일 생성 후 진행**  
+
+     **Gradle Clean 후 Gradle BootJar 빌드를 통해 프로젝트 Jar 파일 생성 후 진행**  
       ```  
       docker build -t v2psmombie-server-image .  
       ```
       ⚠️ 프로젝트의 docker-compose.yml 파일 수정(현재 DockerHub에 배포된 이미지(fight0105/v2psmombie-image) 사용 중)      
-  2.  Docker-Compose를 통한 Spring Boot 서버 및 Mysql 컨테이너화
+  3.  Docker-Compose를 통한 Spring Boot 서버 및 Mysql 컨테이너화
       ```
       docker-compose up -d
       ```
-  3. 실행
+  4. 실행
      ```
      docker-compose start
      ```  
