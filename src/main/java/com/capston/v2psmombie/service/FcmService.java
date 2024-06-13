@@ -9,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -35,14 +37,12 @@ public class FcmService {
         return user.getFcmToken();
     }
 
-
     public void sendMessageToSmombies(List<LocationDto> dangerSmombies) {
         String title = "[ALERT] 보행자 알림";
         String body = "주의! 근처에 충돌 가능성이 높은 차량이 있습니다";
         dangerSmombies.stream()
                 .forEach(smombie -> sendMessageByToken(getToken(smombie.getDeviceId()), title, body));
     }
-
 
     public void sendMessageByToken(String targetToken, String title, String body) {
         Message message = makeMessage(targetToken, title, body);
@@ -53,15 +53,13 @@ public class FcmService {
         }
     }
 
-
     private Message makeMessage(String targetToken, String title, String body) {
-        Notification notification = Notification.builder()
-                .setTitle(title)
-                .setBody(body)
-                .build();
+        Map<String, String> data = new HashMap<>();
+        data.put("title", title);
+        data.put("body", body);
 
         Message message = Message.builder()
-                .setNotification(notification)
+                .putAllData(data)
                 .setToken(targetToken)
                 .build();
 
